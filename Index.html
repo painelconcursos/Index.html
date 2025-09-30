@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contabilidade Simplificada para MEI</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="estilo.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    
+    <script src="script.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="index.html">
+                    <img src="logo.png" alt="Logo da empresa" class="h-12 w-auto">
+                </a>
+            </div>
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <div class="relative">
+                    <button id="nav-menu-button" class="h-10 w-10 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-200 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                    <div id="nav-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border">
+                        <a href="index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Início</a>
+                        <a href="planos.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Planos</a>
+                        <a href="index.html#solucao" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Nossos Serviços</a>
+                        <a href="index.html#depoimentos-whatsapp" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Depoimentos</a>
+                    </div>
+                </div>
+
+                <a href="#" id="login-button" class="text-gray-700 font-semibold hover:text-blue-600 transition-colors duration-300">
+                    <i class="fas fa-user mr-2"></i>Login
+                </a>
+                
+                <div id="user-info" class="hidden relative">
+                    <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none">
+                        <span id="user-name" class="font-semibold text-gray-700"></span>
+                        <i class="fas fa-chevron-down text-xs text-gray-600"></i>
+                    </button>
+                    <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border">
+                        <a href="minha-conta.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Minha Conta</a>
+                        <a href="#" id="logout-button" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Sair</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="w-full">
+        <section class="bg-white">
+            <div class="container mx-auto px-6 py-20 md:py-32 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+                    Contabilidade para MEI:
+                    <span class="block text-blue-600">Menos Burocracia, Mais Lucro.</span>
+                </h1>
+                <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-gray-600">
+                    Deixe a papelada com a gente e foque no que realmente importa: o crescimento do seu negócio. Atendimento humano e especializado por um preço que cabe no seu bolso.
+                </p>
+                <div class="mt-10">
+                    <a href="https://api.whatsapp.com/send?phone=5511998833971&text=Olá! Tenho interesse no serviço de contabilidade para MEI." target="_blank" class="glowing-btn inline-block bg-green-500 text-white text-lg font-bold px-10 py-4 rounded-lg shadow-xl hover:bg-green-600 transform hover:scale-105 transition-all duration-300">
+                        <i class="fab fa-whatsapp mr-3"></i> QUERO ORGANIZAR MEU MEI AGORA
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="problemas" class="py-20 bg-gray-100">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-900">Sua rotina como MEI parece com isso?</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Se você respondeu 'sim' para alguma destas perguntas, você está no lugar certo.</p>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="text-4xl text-blue-600 mb-4">🤯</div>
+                        <h3 class="text-lg font-semibold text-gray-900">Confusão com o DAS</h3>
+                        <p class="mt-2 text-gray-600">Perde horas todo mês tentando entender e emitir a guia de imposto?</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="text-4xl text-blue-600 mb-4">😰</div>
+                        <h3 class="text-lg font-semibold text-gray-900">Medo da Declaração</h3>
+                        <p class="mt-2 text-gray-600">Fica inseguro na hora de fazer a Declaração Anual (DASN-SIMEI)?</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="text-4xl text-blue-600 mb-4">💸</div>
+                        <h3 class="text-lg font-semibold text-gray-900">Risco de Multas</h3>
+                        <p class="mt-2 text-gray-600">Tem receio de cometer erros e ter problemas com a Receita Federal?</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="text-4xl text-blue-600 mb-4">⏱️</div>
+                        <h3 class="text-lg font-semibold text-gray-900">Falta de Tempo</h3>
+                        <p class="mt-2 text-gray-600">Gostaria de ter mais tempo livre para focar em seus clientes e vendas?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solucao" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-gray-900">Recupere sua tranquilidade. Nós cuidamos de tudo.</h2>
+                    <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Com nosso plano completo, você tem a certeza de que seu MEI está 100% em dia, sem surpresas.</p>
+                </div>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div class="flex items-start space-x-4"><div class="flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div><h3 class="text-lg font-semibold">DAS Mensal em Dia</h3><p class="mt-1 text-gray-600">Geramos e enviamos sua guia de imposto todo mês. Você nunca mais vai esquecer.</p></div></div>
+                    <div class="flex items-start space-x-4"><div class="flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div><div><h3 class="text-lg font-semibold">Declaração Anual (DASN-SIMEI)</h3><p class="mt-1 text-gray-600">Cuidamos da sua declaração obrigatória, garantindo que tudo seja entregue corretamente e no prazo.</p></div></div>
+                    <div class="flex items-start space-x-4"><div class="flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 012-2h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 01.293.707V8z"></path></svg></div><div><h3 class="text-lg font-semibold">Suporte Ilimitado via WhatsApp</h3><p class="mt-1 text-gray-600">Tem uma dúvida? Nosso time de especialistas está a uma mensagem de distância para te ajudar.</p></div></div>
+                    <div class="flex items-start space-x-4"><div class="flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg></div><div><h3 class="text-lg font-semibold">Relatórios Simplificados</h3><p class="mt-1 text-gray-600">Enviamos relatórios claros para você acompanhar a saúde financeira do seu negócio.</p></div></div>
+                    <div class="flex items-start space-x-4"><div class="flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path></svg></div><div><h3 class="text-lg font-semibold">Controle de Faturamento</h3><p class="mt-1 text-gray-600">Monitoramos seu faturamento para garantir que você não ultrapasse o limite do MEI.</p></div></div>
+                    <div class="flex items-start space-x-4"><div class="flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM20 8v8a1 1 0 01-1.6.8l-5.333-4a1 1 0 010-1.6l5.333-4A1 1 0 0120 8z"></path></svg></div><div><h3 class="text-lg font-semibold">Migração para ME (Opcional)</h3><p class="mt-1 text-gray-600">Seu negócio cresceu? Te ajudamos no processo de desenquadramento do MEI para ME.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="preco" class="py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-8 md:p-12">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-gray-900">Uma assessoria completa para você não se preocupar com nada</h2>
+                        <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Tudo que seu MEI precisa para ficar em dia e crescer com segurança.</p>
+                    </div>
+                    <ul class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 text-gray-700">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Emissão mensal da Guia DAS</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Declaração Anual (DASN-SIMEI)</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Suporte Ilimitado via WhatsApp</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Controle de Faturamento</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Relatórios Financeiros Simplificados</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Orientação para Emissão de NFS-e</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Análise de Dívidas e Regularização</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Suporte para Alterações Cadastrais</li>
+                    </ul>
+                    <div class="mt-10 text-center">
+                        <a href="https://api.whatsapp.com/send?phone=5511998833971&text=Olá! Gostaria de saber mais sobre a assessoria completa para MEI." target="_blank" class="glowing-btn inline-block bg-blue-600 text-white text-lg font-bold py-4 px-10 rounded-lg shadow-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300">
+                           <i class="fab fa-whatsapp mr-3"></i> QUERO MAIS INFORMAÇÕES
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section> 
+        
+        <section id="depoimentos-whatsapp" class="py-20 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-900">O que nossos clientes dizem no WhatsApp</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">A agilidade e o atendimento personalizado fazem a diferença. Veja o que recebemos por aqui:</p>
+                <div class="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8 justify-center">
+                    <div class="transform hover:scale-105 transition-transform duration-300">
+                        <img src="img1.png" alt="Depoimento de cliente 1 no WhatsApp" class="rounded-xl shadow-lg mx-auto">
+                    </div>
+                    <div class="transform hover:scale-105 transition-transform duration-300">
+                        <img src="img2.png" alt="Depoimento de cliente 2 no WhatsApp" class="rounded-xl shadow-lg mx-auto">
+                    </div>
+                    <div class="transform hover:scale-105 transition-transform duration-300">
+                         <img src="img3.png" alt="Depoimento de cliente 3 no WhatsApp" class="rounded-xl shadow-lg mx-auto">
+                    </div>
+                    <div class="transform hover:scale-105 transition-transform duration-300">
+                        <img src="img4.png" alt="Depoimento de cliente 4 no WhatsApp" class="rounded-xl shadow-lg mx-auto">
+                    </div>
+                    <div class="transform hover:scale-105 transition-transform duration-300">
+                        <img src="img5.png" alt="Depoimento de cliente 5 no WhatsApp" class="rounded-xl shadow-lg mx-auto">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="avaliacoes" class="py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-gray-900">Confiança e tranquilidade para centenas de MEIs</h2>
+                    <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Veja como nosso trabalho tem ajudado outros empreendedores a focarem no que realmente importa.</p>
+                </div>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-md flex flex-col">
+                        <div class="text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic flex-grow">"Finalmente encontrei um serviço que entende a correria do MEI. O suporte pelo WhatsApp é rápido e resolve tudo. Me sinto muito mais seguro e com tempo livre para vender mais."</p>
+                        <div class="mt-6">
+                            <p class="font-bold text-gray-900">Carlos Mendes</p>
+                            <p class="text-sm text-gray-500">Vendedor</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-md flex flex-col">
+                        <div class="text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic flex-grow">"Tinha muito medo de fazer a declaração anual errada. A equipe cuidou de tudo, foi super didática e o preço é muito justo. Vale cada centavo pela paz de espírito!"</p>
+                        <div class="mt-6">
+                            <p class="font-bold text-gray-900">Ana Júlia</p>
+                            <p class="text-sm text-gray-500">Fotógrafa</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-md flex flex-col">
+                        <div class="text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic flex-grow">"Serviço impecável! Todo mês recebo a guia DAS certinha no prazo, sem eu precisar me preocupar. A melhor decisão que tomei para a organização do meu negócio."</p>
+                        <div class="mt-6">
+                            <p class="font-bold text-gray-900">Ricardo Oliveira</p>
+                            <p class="text-sm text-gray-500">Desenvolvedor Freelancer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="cta-final" class="bg-blue-600 text-white">
+            <div class="container mx-auto px-6 py-20 text-center">
+                <h2 class="text-3xl md:text-4xl font-extrabold">Aproveite a Oferta de Lançamento!</h2>
+                <p class="mt-4 text-lg max-w-2xl mx-auto text-blue-100">Garanta seu MEI 100% em dia com especialistas e foque no que realmente importa: seu crescimento.</p>
+                <div class="mt-8 bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-2xl inline-block">
+                    <span class="text-xl line-through opacity-75">De R$ 149,90</span>
+                    <p class="text-5xl font-extrabold mt-2">
+                        Por R$ 99,90
+                        <span class="text-2xl font-medium">/mês</span>
+                    </p>
+                </div>
+                <div class="mt-10">
+                    <a href="planos.html" target="_blank" class="glowing-btn inline-block bg-green-500 text-white text-lg font-bold px-10 py-4 rounded-lg shadow-xl hover:bg-green-600 transform hover:scale-105 transition-all duration-300">
+                        <i class="fab fa-whatsapp mr-3"></i> CONFERIR PLANOS DISPONÍVEIS
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="login-modal" class="login-modal-overlay hidden">
+        <div class="login-modal-content">
+            <h2 class="text-2xl font-bold text-center mb-6">Acessar minha conta</h2>
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl leading-none">&times;</button>
+            <div class="space-y-4">
+                <button id="google-signin" class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" class="w-5 h-5 mr-3" alt="Google logo">
+                    Entrar com Google
+                </button>
+            </div>
+            <p id="auth-error" class="text-red-500 text-sm mt-4 text-center"></p>
+        </div>
+    </div>
+
+</body>
+</html>

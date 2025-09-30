@@ -1,0 +1,109 @@
+/* Estilo customizado para usar a fonte Inter */
+body {
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* Efeito de brilho sutil no botão principal */
+.glowing-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.glowing-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2), rgba(255,255,255,0) 60%);
+    transform: translate(-50%, -50%);
+    transition: all 0.6s ease;
+    opacity: 0;
+}
+
+.glowing-btn:hover::before {
+    opacity: 1;
+    width: 0;
+    height: 0;
+}
+
+/* Estilos para o Modal de Login */
+.login-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.login-modal-content {
+    background-color: white;
+    color: #374151; /* Correção 1: Garante que o texto dentro do modal seja escuro */
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+}
+
+/* NOVO: Estilo para o menu dropdown do usuário */
+#user-menu {
+    border: 1px solid #e5e7eb; /* Equivalente ao border-gray-200 do Tailwind */
+}
+
+
+/* ======================================================================== */
+/* NOVA REGRA FORÇADA - Adicionada para garantir a visibilidade do botão   */
+/* ======================================================================== */
+
+/* Esta regra se aplica diretamente ao botão com id="google-signin".
+  Usar um ID (#) tem alta especificidade no CSS, o que deve sobrepor
+  qualquer outra regra que esteja deixando o botão invisível.
+*/
+#google-signin {
+    color: #374151 !important; /* Força a cor do texto para cinza-escuro */
+    border-color: #D1D5DB !important; /* Força a cor da borda para cinza-claro */
+    background-color: #ffffff !important; /* Garante o fundo branco */
+}
+
+/* Efeito visual opcional para quando o mouse passa por cima */
+#google-signin:hover {
+    background-color: #F9FAFB !important; /* Adiciona um fundo cinza bem claro */
+}
+
+/* Estilos para o Modal de Documentos (Novo) */
+.docs-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1010; /* Z-index maior para ficar sobre outros elementos se necessário */
+    backdrop-filter: blur(4px);
+    overflow-y: auto; /* Permite rolar se o conteúdo for grande em telas pequenas */
+    padding: 1rem;
+}
+
+.docs-modal-content {
+    background-color: white;
+    color: #374151;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px; /* Aumentado para acomodar melhor o formulário */
+    position: relative;
+}

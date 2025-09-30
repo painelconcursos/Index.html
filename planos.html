@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos - Contabilidade Simplificada para MEI</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="estilo.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    
+    <script src="script.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="index.html">
+                    <img src="logo.png" alt="Logo da empresa" class="h-12 w-auto">
+                </a>
+            </div>
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <div class="relative">
+                    <button id="nav-menu-button" class="h-10 w-10 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-200 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                    <div id="nav-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border">
+                        <a href="index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Início</a>
+                        <a href="planos.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Planos</a>
+                        <a href="index.html#solucao" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Nossos Serviços</a>
+                        <a href="index.html#depoimentos-whatsapp" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Depoimentos</a>
+                    </div>
+                </div>
+                <a href="#" id="login-button" class="text-gray-700 font-semibold hover:text-blue-600 transition-colors duration-300">
+                    <i class="fas fa-user mr-2"></i>Login
+                </a>
+                <div id="user-info" class="hidden relative">
+                    <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none">
+                        <span id="user-name" class="font-semibold text-gray-700"></span>
+                        <i class="fas fa-chevron-down text-xs text-gray-600"></i>
+                    </button>
+                    <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border">
+                        <a href="minha-conta.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Minha Conta</a>
+                        <a href="#" id="logout-button" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Sair</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="w-full">
+        <section class="py-20 bg-gray-100">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl font-extrabold text-gray-900">Escolha o plano ideal para você</h1>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Temos a solução perfeita para garantir a tranquilidade e a organização do seu MEI.</p>
+                
+                <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-8 border flex flex-col">
+                        <h2 class="text-2xl font-bold text-gray-900">Plano Start</h2>
+                        <p class="mt-2 text-gray-600">O essencial para manter seu MEI em dia sem dor de cabeça.</p>
+                        
+                        <p class="mt-8 text-4xl font-extrabold text-gray-900">R$ 99<span class="text-2xl font-semibold">,90</span>
+                            <span class="text-base font-medium text-gray-500">/mês</span>
+                        </p>
+                        
+                        <ul class="mt-8 space-y-4 text-left flex-grow">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i>Emissão mensal da Guia DAS</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i>Declaração Anual (DASN-SIMEI)</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i>Suporte Ilimitado via WhatsApp</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i>Análise de Dívidas e Regularização</li>
+                        </ul>
+
+                        <div class="mt-10"><a href="https://invoice.infinitepay.io/plans/geovane-de-souza/289UgA3Euh" target="_blank" class="w-full inline-block bg-blue-600 text-white text-lg font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300">
+                                Contratar Plano Start
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-2xl p-8 border-2 border-blue-600 relative flex flex-col">
+                        <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-sm font-bold px-4 py-1 rounded-full">MAIS POPULAR</span>
+                        
+                        <h2 class="text-2xl font-bold text-gray-900">Plano Completo</h2>
+                        <p class="mt-2 text-gray-600">A solução completa para quem busca crescimento e segurança total.</p>
+                        
+                        <p class="mt-8 text-4xl font-extrabold text-gray-900">R$ 119<span class="text-2xl font-semibold">,90</span>
+                            <span class="text-base font-medium text-gray-500">/mês</span>
+                        </p>
+                        
+                        <ul class="mt-8 space-y-4 text-left flex-grow">
+                            <li class="flex items-center font-semibold text-blue-700"><i class="fas fa-star text-yellow-400 mr-3"></i>Tudo do Plano Start, e mais:</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i>Controle de Faturamento Mensal</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i>Relatórios Financeiros Simplificados</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i>Orientação para Emissão de NFS-e</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i>Suporte para Alterações Cadastrais</li>
+                        </ul>
+
+                        <div class="mt-10">
+                            <a href="https://invoice.infinitepay.io/plans/geovane-de-souza/289T9bqC7p" target="_blank" class="w-full glowing-btn inline-block bg-green-500 text-white text-lg font-bold py-3 px-8 rounded-lg shadow-xl hover:bg-green-600 transform hover:scale-105 transition-all duration-300">
+                                Contratar Plano Completo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="login-modal" class="login-modal-overlay hidden">
+        <div class="login-modal-content">
+            <h2 class="text-2xl font-bold text-center mb-6">Acessar minha conta</h2>
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl leading-none">&times;</button>
+            <div class="space-y-4">
+                <button id="google-signin" class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" class="w-5 h-5 mr-3" alt="Google logo">
+                    Entrar com Google
+                </button>
+            </div>
+            <p id="auth-error" class="text-red-500 text-sm mt-4 text-center"></p>
+        </div>
+    </div>
+
+</body>
+</html>
