@@ -1,5 +1,3 @@
-// script.js (VERSÃO COMPLETA E FINAL)
-
 document.addEventListener('DOMContentLoaded', function () {
     const firebaseConfig = {
         apiKey: "AIzaSyDTryEmse4UpbLMXCuixkIBwqxjHHDcFRg",
@@ -47,15 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- LÓGICA DE AUTENTICAÇÃO ---
-
-    // Ação de Login com Google
     if (googleSignInButton) {
         googleSignInButton.addEventListener('click', () => {
             const authError = document.getElementById('auth-error');
             auth.signInWithPopup(provider)
-                .then((result) => {
-                    window.location.href = 'minha-conta.html';
-                })
+                .then(() => { window.location.href = 'minha-conta.html'; })
                 .catch(error => {
                     console.error("Erro ao fazer login com Google: ", error);
                     if (authError) authError.textContent = "Falha no login: " + error.message;
@@ -63,19 +57,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Ação de Logout
     if (logoutButton) {
         logoutButton.addEventListener('click', (e) => {
             e.preventDefault();
-            auth.signOut().then(() => {
-                window.location.href = 'index.html';
-            });
+            auth.signOut().then(() => { window.location.href = 'index.html'; });
         });
     }
     
     // --- FUNÇÕES DE DADOS DO USUÁRIO ---
-
-    // ATUALIZADO: Lê os dados do plano do Realtime Database e exibe em 'minha-conta.html'
     async function updateAccountInfo(user) {
         const accountName = document.getElementById('account-name');
         const accountEmail = document.getElementById('account-email');
@@ -89,20 +78,13 @@ document.addEventListener('DOMContentLoaded', function () {
         if (user && meuPlanoDiv) {
             const db = firebase.database();
             const userRef = db.ref('users/' + user.uid);
-
             try {
                 const snapshot = await userRef.get();
                 if (snapshot.exists()) {
                     const userData = snapshot.val();
-                    meuPlanoDiv.innerHTML = `
-                        <p class="text-lg"><strong>Plano:</strong> ${userData.plano || 'N/A'}</p>
-                        <p class="text-green-600 font-semibold"><strong>Status:</strong> ${userData.statusPlano || 'N/A'}</p>
-                    `;
+                    meuPlanoDiv.innerHTML = `<p class="text-lg"><strong>Plano:</strong> ${userData.plano || 'N/A'}</p><p class="text-green-600 font-semibold"><strong>Status:</strong> ${userData.statusPlano || 'N/A'}</p>`;
                 } else {
-                    meuPlanoDiv.innerHTML = `
-                        <p>Você ainda não possui um plano ativo.</p>
-                        <a href="planos.html" class="font-semibold hover:underline mt-2 inline-block">Ver planos disponíveis</a>
-                    `;
+                    meuPlanoDiv.innerHTML = `<p>Você ainda não possui um plano ativo.</p><a href="planos.html" class="font-semibold hover:underline mt-2 inline-block">Ver planos disponíveis</a>`;
                 }
             } catch (error) {
                 console.error("Erro ao buscar informações do plano: ", error);
@@ -111,17 +93,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // NOVO: Adiciona o ID do usuário aos links de pagamento em 'planos.html'
     function updateUserPaymentLinks(user) {
         if (window.location.pathname.includes('planos.html')) {
             const planoStartLink = document.getElementById('plano-start-link');
             const planoCompletoLink = document.getElementById('plano-completo-link');
-
             if (user && user.uid && planoStartLink && planoCompletoLink) {
                 const baseStartURL = "https://www.asaas.com/c/dxam6zihgy7ce0bu";
                 const baseCompletoURL = "https://www.asaas.com/c/7qtj87ok4gqdwyxw";
-                
-                // Adiciona o ID do usuário como 'externalReference' na URL da Asaas
                 planoStartLink.href = `${baseStartURL}?externalReference=${user.uid}`;
                 planoCompletoLink.href = `${baseCompletoURL}?externalReference=${user.uid}`;
             }
@@ -133,39 +111,32 @@ document.addEventListener('DOMContentLoaded', function () {
         if (user) {
             // --- USUÁRIO LOGADO ---
             const firstName = user.displayName.split(' ')[0];
-
             if (loginButton) loginButton.style.display = 'none';
             if (userInfoDiv) userInfoDiv.classList.remove('hidden');
             if (userNameSpan) userNameSpan.textContent = firstName;
             if (loginModal) loginModal.classList.add('hidden');
-
-            // Chama as funções para atualizar as páginas, se necessário
-            updateAccountInfo(user);      // Para a página 'minha-conta.html'
-            updateUserPaymentLinks(user); // Para a página 'planos.html'
-
+            
+            updateAccountInfo(user);
+            updateUserPaymentLinks(user);
         } else {
             // --- USUÁRIO DESLOGADO ---
             if (loginButton) loginButton.style.display = 'block';
             if (userInfoDiv) userInfoDiv.classList.add('hidden');
-
             if (window.location.pathname.includes('minha-conta.html')) {
                 window.location.replace('index.html');
             }
         }
     });
 
-    // --- LÓGICA DOS MENUS DROPDOWN ---
+    // --- LÓGICA DOS MENUS E MODAIS ---
     if (userMenuButton && userMenu) {
-        userMenuButton.addEventListener('click', () => {
-            userMenu.classList.toggle('hidden');
-        });
+        userMenuButton.addEventListener('click', () => { userMenu.classList.toggle('hidden'); });
         document.addEventListener('click', function(event) {
             if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
                 userMenu.classList.add('hidden');
             }
         });
     }
-
     const navMenuButton = document.getElementById('nav-menu-button');
     const navMenu = document.getElementById('nav-menu');
     if (navMenuButton && navMenu) {
@@ -179,25 +150,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
-    // --- LÓGICA DO MODAL DE DOCUMENTOS ---
     const openDocsModalButton = document.getElementById('open-docs-modal-button');
     const docsModal = document.getElementById('docs-modal');
     const closeDocsModalButton = document.getElementById('close-docs-modal');
     const docsForm = document.getElementById('docs-form');
-
     if (openDocsModalButton && docsModal && closeDocsModalButton) {
-        openDocsModalButton.addEventListener('click', () => {
-            docsModal.classList.remove('hidden');
-        });
-        closeDocsModalButton.addEventListener('click', () => {
-            docsModal.classList.add('hidden');
-        });
-        docsModal.addEventListener('click', (e) => {
-            if (e.target === docsModal) {
-                docsModal.classList.add('hidden');
-            }
-        });
+        openDocsModalButton.addEventListener('click', () => { docsModal.classList.remove('hidden'); });
+        closeDocsModalButton.addEventListener('click', () => { docsModal.classList.add('hidden'); });
+        docsModal.addEventListener('click', (e) => { if (e.target === docsModal) { docsModal.classList.add('hidden'); } });
         if (docsForm) {
             docsForm.addEventListener('submit', (e) => {
                 e.preventDefault();
