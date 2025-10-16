@@ -1,3 +1,5 @@
+// script.js (VERSÃO CORRIGIDA)
+
 document.addEventListener('DOMContentLoaded', function () {
     const firebaseConfig = {
         apiKey: "AIzaSyDTryEmse4UpbLMXCuixkIBwqxjHHDcFRg",
@@ -46,14 +48,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- LÓGICA DE AUTENTICAÇÃO ---
 
-    // Ação de Login com Google (botão de dentro do modal)
+    // Ação de Login com Google
     if (googleSignInButton) {
         googleSignInButton.addEventListener('click', () => {
             const authError = document.getElementById('auth-error');
             auth.signInWithPopup(provider)
                 .then((result) => {
-                    // **CORREÇÃO APLICADA AQUI**
-                    // O redirecionamento agora acontece apenas no sucesso do login.
                     window.location.href = 'minha-conta.html';
                 })
                 .catch(error => {
@@ -68,10 +68,20 @@ document.addEventListener('DOMContentLoaded', function () {
         logoutButton.addEventListener('click', (e) => {
             e.preventDefault();
             auth.signOut().then(() => {
-                // Garante que o usuário vá para a home page ao deslogar
                 window.location.href = 'index.html';
             });
         });
+    }
+    
+    // **NOVA FUNÇÃO ADICIONADA AQUI**
+    // Função dedicada para atualizar as informações na página "Minha Conta"
+    function updateAccountInfo(user) {
+        const accountName = document.getElementById('account-name');
+        const accountEmail = document.getElementById('account-email');
+        if (accountName && accountEmail) {
+            accountName.textContent = user.displayName;
+            accountEmail.textContent = user.email;
+        }
     }
 
     // Gerenciador de estado de autenticação
@@ -85,14 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (userNameSpan) userNameSpan.textContent = firstName;
             if (loginModal) loginModal.classList.add('hidden');
 
-            // **CORREÇÃO APLICADA AQUI**
-            // Lógica de redirecionamento foi REMOVIDA daqui para evitar o loop.
-            // O código abaixo apenas preenche os dados se o usuário estiver na página.
+            // **LÓGICA CORRIGIDA AQUI**
+            // Se estiver na página "minha-conta", chama a função para preencher os dados
             if (window.location.pathname.includes('minha-conta.html')) {
-                const accountName = document.getElementById('account-name');
-                const accountEmail = document.getElementById('account-email');
-                if (accountName) accountName.textContent = user.displayName;
-                if (accountEmail) accountEmail.textContent = user.email;
+                updateAccountInfo(user);
             }
 
         } else {
@@ -100,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (loginButton) loginButton.style.display = 'block';
             if (userInfoDiv) userInfoDiv.classList.add('hidden');
 
+            // Redireciona para a home se tentar acessar a conta deslogado
             if (window.location.pathname.includes('minha-conta.html')) {
                 window.location.replace('index.html');
             }
