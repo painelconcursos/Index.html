@@ -1,4 +1,4 @@
-// script.js (VERSÃO CORRIGIDA)
+// script.js (VERSÃO COMPLETA E FINAL)
 
 document.addEventListener('DOMContentLoaded', function () {
     const firebaseConfig = {
@@ -73,18 +73,62 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
-    // **NOVA FUNÇÃO ADICIONADA AQUI**
-    // Função dedicada para atualizar as informações na página "Minha Conta"
-    function updateAccountInfo(user) {
+    // --- FUNÇÕES DE DADOS DO USUÁRIO ---
+
+    // ATUALIZADO: Lê os dados do plano do Realtime Database e exibe em 'minha-conta.html'
+    async function updateAccountInfo(user) {
         const accountName = document.getElementById('account-name');
         const accountEmail = document.getElementById('account-email');
+        const meuPlanoDiv = document.getElementById("meu-plano-div");
+
         if (accountName && accountEmail) {
             accountName.textContent = user.displayName;
             accountEmail.textContent = user.email;
         }
+
+        if (user && meuPlanoDiv) {
+            const db = firebase.database();
+            const userRef = db.ref('users/' + user.uid);
+
+            try {
+                const snapshot = await userRef.get();
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    meuPlanoDiv.innerHTML = `
+                        <p class="text-lg"><strong>Plano:</strong> ${userData.plano || 'N/A'}</p>
+                        <p class="text-green-600 font-semibold"><strong>Status:</strong> ${userData.statusPlano || 'N/A'}</p>
+                    `;
+                } else {
+                    meuPlanoDiv.innerHTML = `
+                        <p>Você ainda não possui um plano ativo.</p>
+                        <a href="planos.html" class="font-semibold hover:underline mt-2 inline-block">Ver planos disponíveis</a>
+                    `;
+                }
+            } catch (error) {
+                console.error("Erro ao buscar informações do plano: ", error);
+                meuPlanoDiv.innerHTML = `<p class="text-red-500">Ocorreu um erro ao carregar as informações do seu plano.</p>`;
+            }
+        }
     }
 
-    // Gerenciador de estado de autenticação
+    // NOVO: Adiciona o ID do usuário aos links de pagamento em 'planos.html'
+    function updateUserPaymentLinks(user) {
+        if (window.location.pathname.includes('planos.html')) {
+            const planoStartLink = document.getElementById('plano-start-link');
+            const planoCompletoLink = document.getElementById('plano-completo-link');
+
+            if (user && user.uid && planoStartLink && planoCompletoLink) {
+                const baseStartURL = "https://www.asaas.com/c/dxam6zihgy7ce0bu";
+                const baseCompletoURL = "https://www.asaas.com/c/7qtj87ok4gqdwyxw";
+                
+                // Adiciona o ID do usuário como 'externalReference' na URL da Asaas
+                planoStartLink.href = `${baseStartURL}?externalReference=${user.uid}`;
+                planoCompletoLink.href = `${baseCompletoURL}?externalReference=${user.uid}`;
+            }
+        }
+    }
+
+    // --- GERENCIADOR CENTRAL DE AUTENTICAÇÃO ---
     auth.onAuthStateChanged(user => {
         if (user) {
             // --- USUÁRIO LOGADO ---
@@ -95,25 +139,22 @@ document.addEventListener('DOMContentLoaded', function () {
             if (userNameSpan) userNameSpan.textContent = firstName;
             if (loginModal) loginModal.classList.add('hidden');
 
-            // **LÓGICA CORRIGIDA AQUI**
-            // Se estiver na página "minha-conta", chama a função para preencher os dados
-            if (window.location.pathname.includes('minha-conta.html')) {
-                updateAccountInfo(user);
-            }
+            // Chama as funções para atualizar as páginas, se necessário
+            updateAccountInfo(user);      // Para a página 'minha-conta.html'
+            updateUserPaymentLinks(user); // Para a página 'planos.html'
 
         } else {
             // --- USUÁRIO DESLOGADO ---
             if (loginButton) loginButton.style.display = 'block';
             if (userInfoDiv) userInfoDiv.classList.add('hidden');
 
-            // Redireciona para a home se tentar acessar a conta deslogado
             if (window.location.pathname.includes('minha-conta.html')) {
                 window.location.replace('index.html');
             }
         }
     });
 
-    // Toggle do menu dropdown do usuário
+    // --- LÓGICA DOS MENUS DROPDOWN ---
     if (userMenuButton && userMenu) {
         userMenuButton.addEventListener('click', () => {
             userMenu.classList.toggle('hidden');
@@ -125,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Lógica do Menu de Navegação
     const navMenuButton = document.getElementById('nav-menu-button');
     const navMenu = document.getElementById('nav-menu');
     if (navMenuButton && navMenu) {
@@ -140,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- LÓGICA DO MODAL DE DOCUMENTOS (Página Minha Conta) ---
+    // --- LÓGICA DO MODAL DE DOCUMENTOS ---
     const openDocsModalButton = document.getElementById('open-docs-modal-button');
     const docsModal = document.getElementById('docs-modal');
     const closeDocsModalButton = document.getElementById('close-docs-modal');
