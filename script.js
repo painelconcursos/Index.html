@@ -1,5 +1,3 @@
-// script.js (Versão Final de Diagnóstico)
-
 document.addEventListener('DOMContentLoaded', function () {
     // --- CONFIGURAÇÃO DO FIREBASE ---
     const firebaseConfig = {
@@ -18,23 +16,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
 
+    // --- ELEMENTOS DA UI ---
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button');
+    const userInfoDiv = document.getElementById('user-info');
+    const userNameSpan = document.getElementById('user-name');
+    const userMenuButton = document.getElementById('user-menu-button');
+    const userMenu = document.getElementById('user-menu');
+    const loginModal = document.getElementById('login-modal');
+    const closeModalButton = document.getElementById('close-modal');
+    const googleSignInButton = document.getElementById('google-signin');
+    const navMenuButton = document.getElementById('nav-menu-button');
+    const navMenu = document.getElementById('nav-menu');
+    const openDocsModalButton = document.getElementById('open-docs-modal-button');
+    const docsModal = document.getElementById('docs-modal');
+    const closeDocsModalButton = document.getElementById('close-docs-modal');
+    const docsForm = document.getElementById('docs-form');
+
     // --- FUNÇÕES DE ATUALIZAÇÃO DE DADOS ---
     function updateUserPaymentLinks(user) {
-        // LINHA DE DIAGNÓSTICO ADICIONADA AQUI
-        console.log("O caminho da página atual é:", window.location.pathname);
-
-        if (window.location.pathname.includes('planos.html')) {
+        // CORREÇÃO APLICADA AQUI!
+        if (window.location.pathname.includes('/planos')) {
             const planoStartLink = document.getElementById('plano-start-link');
             const planoCompletoLink = document.getElementById('plano-completo-link');
 
             if (user && user.uid && planoStartLink && planoCompletoLink) {
-                console.log("%cSUCESSO! Links encontrados. Atualizando hrefs...", "color: green;");
                 const baseStartURL = "https://www.asaas.com/c/dxam6zihgy7ce0bu";
                 const baseCompletoURL = "https://www.asaas.com/c/7qtj87ok4gqdwyxw";
                 planoStartLink.href = `${baseStartURL}?externalReference=${user.uid}`;
                 planoCompletoLink.href = `${baseCompletoURL}?externalReference=${user.uid}`;
-            } else {
-                console.error("FALHA ao atualizar links. IDs não encontrados no HTML.");
             }
         }
     }
@@ -51,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (user && meuPlanoDiv) {
             const db = firebase.database();
-            const userRef = db.ref('users/' + user.uid);
+            const userRef = db.ref('users/'' + user.uid);
             try {
                 const snapshot = await userRef.get();
                 if (snapshot.exists()) {
@@ -72,20 +82,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (user) {
             // --- USUÁRIO LOGADO ---
             const firstName = user.displayName.split(' ')[0];
-            const loginButton = document.getElementById('login-button');
-            const userInfoDiv = document.getElementById('user-info');
-            const userNameSpan = document.getElementById('user-name');
             if (loginButton) loginButton.style.display = 'none';
             if (userInfoDiv) userInfoDiv.classList.remove('hidden');
             if (userNameSpan) userNameSpan.textContent = firstName;
+            if (loginModal) loginModal.classList.add('hidden');
             
             updateAccountInfo(user);
             updateUserPaymentLinks(user);
 
         } else {
             // --- USUÁRIO DESLOGADO ---
-            const loginButton = document.getElementById('login-button');
-            const userInfoDiv = document.getElementById('user-info');
             if (loginButton) loginButton.style.display = 'block';
             if (userInfoDiv) userInfoDiv.classList.add('hidden');
             if (window.location.pathname.includes('minha-conta.html')) {
@@ -93,24 +99,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-    
-    // (O resto do código para login, logout, modais e menus continua aqui...)
-    // ...
-    const loginButton = document.getElementById('login-button');
-    const logoutButton = document.getElementById('logout-button');
-    const userInfoDiv = document.getElementById('user-info');
-    const userNameSpan = document.getElementById('user-name');
-    const userMenuButton = document.getElementById('user-menu-button');
-    const userMenu = document.getElementById('user-menu');
-    const loginModal = document.getElementById('login-modal');
-    const closeModalButton = document.getElementById('close-modal');
-    const googleSignInButton = document.getElementById('google-signin');
-    const navMenuButton = document.getElementById('nav-menu-button');
-    const navMenu = document.getElementById('nav-menu');
-    const openDocsModalButton = document.getElementById('open-docs-modal-button');
-    const docsModal = document.getElementById('docs-modal');
-    const closeDocsModalButton = document.getElementById('close-docs-modal');
-    const docsForm = document.getElementById('docs-form');
+
+    // --- LÓGICA DE LOGIN/LOGOUT E INTERFACE ---
     if (googleSignInButton) {
         googleSignInButton.addEventListener('click', () => {
             const authError = document.getElementById('auth-error');
@@ -119,22 +109,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => { console.error("Erro login: ", error); if (authError) authError.textContent = "Falha no login: " + error.message; });
         });
     }
+
     if (logoutButton) {
         logoutButton.addEventListener('click', (e) => { e.preventDefault(); auth.signOut().then(() => { window.location.href = 'index.html'; }); });
     }
+
     if (loginModal && loginButton) {
         loginButton.addEventListener('click', (e) => { e.preventDefault(); loginModal.classList.remove('hidden'); });
         if(closeModalButton) { closeModalButton.addEventListener('click', () => { loginModal.classList.add('hidden'); }); }
         loginModal.addEventListener('click', (e) => { if (e.target === loginModal) { loginModal.classList.add('hidden'); } });
     }
+
     if (userMenuButton && userMenu) {
         userMenuButton.addEventListener('click', () => { userMenu.classList.toggle('hidden'); });
         document.addEventListener('click', function(event) { if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) { userMenu.classList.add('hidden'); } });
     }
+
     if (navMenuButton && navMenu) {
         navMenuButton.addEventListener('click', () => { if(userMenu) userMenu.classList.add('hidden'); navMenu.classList.toggle('hidden'); });
         document.addEventListener('click', function(event) { if (!navMenuButton.contains(event.target) && !navMenu.contains(event.target)) { navMenu.classList.add('hidden'); } });
     }
+
     if (openDocsModalButton && docsModal && closeDocsModalButton) {
         openDocsModalButton.addEventListener('click', () => { docsModal.classList.remove('hidden'); });
         closeDocsModalButton.addEventListener('click', () => { docsModal.classList.add('hidden'); });
