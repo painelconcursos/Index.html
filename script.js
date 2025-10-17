@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (user && meuPlanoDiv) {
             const db = firebase.database();
-            // LINHA CORRIGIDA AQUI!
             const userRef = db.ref('users/' + user.uid);
             try {
                 const snapshot = await userRef.get();
@@ -78,6 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- GERENCIADOR CENTRAL DE AUTENTICAÇÃO ---
+    // A lógica principal agora vive inteiramente aqui dentro.
+    // Este bloco SÓ é executado quando o Firebase tem 100% de certeza sobre o status de login.
     auth.onAuthStateChanged(user => {
         if (user) {
             // --- USUÁRIO LOGADO ---
@@ -85,8 +86,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (loginButton) loginButton.style.display = 'none';
             if (userInfoDiv) userInfoDiv.classList.remove('hidden');
             if (userNameSpan) userNameSpan.textContent = firstName;
-            if (loginModal) loginModal.classList.add('hidden');
             
+            // Chama as funções de atualização SOMENTE DEPOIS de confirmar o usuário.
             updateAccountInfo(user);
             updateUserPaymentLinks(user);
 
@@ -94,19 +95,20 @@ document.addEventListener('DOMContentLoaded', function () {
             // --- USUÁRIO DESLOGADO ---
             if (loginButton) loginButton.style.display = 'block';
             if (userInfoDiv) userInfoDiv.classList.add('hidden');
-            if (window.location.pathname.includes('minha-conta.html')) {
-                window.location.replace('index.html');
-            }
+        }
+        
+        // Redireciona APENAS se o usuário estiver deslogado e tentar acessar a página da conta.
+        if (!user && window.location.pathname.includes('minha-conta.html')) {
+            window.location.replace('index.html');
         }
     });
 
     // --- LÓGICA DE LOGIN/LOGOUT E INTERFACE ---
     if (googleSignInButton) {
         googleSignInButton.addEventListener('click', () => {
-            const authError = document.getElementById('auth-error');
             auth.signInWithPopup(provider)
                 .then(() => { window.location.href = 'minha-conta.html'; })
-                .catch(error => { console.error("Erro login: ", error); if (authError) authError.textContent = "Falha no login: " + error.message; });
+                .catch(error => { console.error("Erro login: ", error); });
         });
     }
 
