@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- FUNÇÕES DE ATUALIZAÇÃO DE DADOS ---
     function updateUserPaymentLinks(user) {
-        // CORREÇÃO APLICADA AQUI!
         if (window.location.pathname.includes('/planos')) {
             const planoStartLink = document.getElementById('plano-start-link');
             const planoCompletoLink = document.getElementById('plano-completo-link');
@@ -61,7 +60,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (user && meuPlanoDiv) {
             const db = firebase.database();
-            const userRef = db.ref('users/'' + user.uid);
+            // LINHA CORRIGIDA AQUI!
+            const userRef = db.ref('users/' + user.uid);
             try {
                 const snapshot = await userRef.get();
                 if (snapshot.exists()) {
