@@ -77,8 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- GERENCIADOR CENTRAL DE AUTENTICAÇÃO ---
-    // A lógica principal agora vive inteiramente aqui dentro.
-    // Este bloco SÓ é executado quando o Firebase tem 100% de certeza sobre o status de login.
     auth.onAuthStateChanged(user => {
         if (user) {
             // --- USUÁRIO LOGADO ---
@@ -87,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (userInfoDiv) userInfoDiv.classList.remove('hidden');
             if (userNameSpan) userNameSpan.textContent = firstName;
             
-            // Chama as funções de atualização SOMENTE DEPOIS de confirmar o usuário.
             updateAccountInfo(user);
             updateUserPaymentLinks(user);
 
@@ -97,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (userInfoDiv) userInfoDiv.classList.add('hidden');
         }
         
-        // Redireciona APENAS se o usuário estiver deslogado e tentar acessar a página da conta.
         if (!user && window.location.pathname.includes('minha-conta.html')) {
             window.location.replace('index.html');
         }
